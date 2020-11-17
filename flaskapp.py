@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Response
-flask_app = Flask('flaskappp')
+flask_app = Flask('flaskapp')
 
 
 @flask_app.route('/hello')

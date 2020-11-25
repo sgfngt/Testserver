@@ -1,43 +1,56 @@
-from flask import Flask, render_template
-from flask import Response
+import argparse
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-flask_app = Flask(__name__)
-flask_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///entries.db"
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///entries.db"
 
 #Initialize the DB
-db = SQLAlchemy(flask_app)
+db = SQLAlchemy(app)
 
 #Create db model
 class Entries(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(200))
-    date_created = db.Column(db.DateTime, default=datetime.now())
+    date_created = db.Column(db.DateTime)
 
 
-
-last_entry = [
-                {"title":"sebsemilia",
-                 "body":"aoooooo"
-                },
-                {"title:":"steffensemilia",
-                 "body":"aoaoaooaoaooooooooo"
-                }
-             ]
-
-@flask_app.route('/home')
+@app.route('/home', methods=["GET", "POST"])
 def home():
-    return render_template("home.html", last_entry=last_entry)
 
+    if request.method == "POST":
+        inputMessage = request.form["message"]
+        newMessage = Entries(message=inputMessage, date_created=datetime.now())
 
-@flask_app.route('/hello')
-def hello_world():
-    return Response(
-        'Hello world from Flask!\n',
-        mimetype='text/plain'
-    )
+        #Push to DB
+        try:
+            db.session.add(newMessage)
+            db.session.commit()
+            return redirect("/home")
+        except:
+            return "Fehler beim Hinzufuegen zur Datenbank"
 
+    else:
+        entries = Entries.query.order_by(Entries.id.desc())
+        return render_template("home.html", entries=entries)
 
+if __name__ == '__main__':
+    #set default values for host and port
+    host = "0.0.0.0"
+    port = 5000
 
-app = flask_app.wsgi_app
+    #Create argument parser to pass custom values for host and port
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--host")
+    parser.add_argument("--port")
+    args = parser.parse_args()
+
+    if args.host is not None:
+        host = args.host
+    if args.port is not None:
+        port = args.port
+
+    print("Starting Server on Port "+str(port))
+    app.run(debug=True, host=host, port=port)

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+{% block body %}
+
+<h1>Der letzte Eintrag in der DB </h1>
+
+<p>Id = {{ entries[0].id }}</p>
+<p>Nachricht = {{ entries[0].message }}</p>
+<p>Erstellungszeitpunkt = {{ entries[0].date_created }}</p>
+
+<h2>Neuen Eintrag zur Datenbank hinzufuegen </h2>
+
+<form action="/home" method="POST">
+
+    Message: <input type="text" name="message" id="message">
+    <input type="submit" value="Nachricht hinzufuegen">
+
+</form>
+
+<br/><br/>
+
+{% endblock %}
+
+</body>
+</html>

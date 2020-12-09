@@ -17,8 +17,13 @@ class Entries(db.Model):
     date_created = db.Column(db.DateTime)
 
 
-@app.route('/home', methods=["GET", "POST"])
+@app.route("/home")
 def home():
+    return render_template("home.html")
+
+
+@app.route('/eingabe', methods=["GET", "POST"])
+def eingabe():
 
     if request.method == "POST":
         inputMessage = request.form["message"]
@@ -28,13 +33,13 @@ def home():
         try:
             db.session.add(newMessage)
             db.session.commit()
-            return redirect("/home")
+            return redirect("/eingabe")
         except:
             return "Fehler beim Hinzufuegen zur Datenbank"
 
     else:
         entries = Entries.query.order_by(Entries.id.desc())
-        return render_template("home.html", entries=entries)
+        return render_template("eingabe.html", entries=entries)
 
 if __name__ == '__main__':
     #set default values for host and port

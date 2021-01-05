@@ -1,5 +1,5 @@
 import argparse
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -21,7 +21,6 @@ class Entries(db.Model):
 def home():
     return render_template("home.html")
 
-
 @app.route('/eingabe', methods=["GET", "POST"])
 def eingabe():
 
@@ -40,6 +39,11 @@ def eingabe():
     else:
         entries = Entries.query.order_by(Entries.id.desc())
         return render_template("eingabe.html", entries=entries)
+
+@app.route("/speicher")
+def speicher():
+    entries = Entries.query.order_by(Entries.id.asc())
+    return render_template("speicher.html", entries=entries)
 
 if __name__ == '__main__':
     #set default values for host and port

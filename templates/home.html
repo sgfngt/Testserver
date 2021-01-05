@@ -1,8 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  </head>
+
+ <style>
+  .navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+  .navbar-nav  li a:hover {
+    color: #1abc9c !important;
+  }
+  </style>
+
 <body>
 
-<h1>Das ist die Startseite</h1>
+    <!-- Navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="home">Steffens Webseite</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="home">Home</a></li>
+                <li><a href="eingabe">Eingabe</a></li>
+                <li><a href="speicher">Bisherige Einträge</a></li>
+            </ul>
+        </div>
+    </nav>
+
+<h1>Das ist die Startseite und hier ist moritz</h1>
+<img src="{{url_for('static', filename='moritz.jpg')}}" >
 
 
 </body>

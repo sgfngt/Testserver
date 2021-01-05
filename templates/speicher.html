@@ -35,33 +35,38 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="home">Home</a></li>
-                <li class="active"><a href="eingabe">Eingabe</a></li>
-                <li><a href="speicher">Bisherige Einträge</a></li>
+                <li><a href="eingabe">Eingabe</a></li>
+                <li class="active"><a href="speicher">Bisherige Einträge</a></li>
             </ul>
         </div>
     </nav>
 
-
     {% block body %}
 
-    <h1>Der letzte Eintrag in der DB </h1>
+    <div class="jumbotron text-center">
+        <h1>Liste aller bisher gespeicherten Einträge:</h1>
+    </div>
 
-    <p>Id = {{ entries[0].id }}</p>
-    <p>Nachricht = {{ entries[0].message }}</p>
-    <p>Erstellungszeitpunkt = {{ entries[0].date_created }}</p>
-
-    <h2>Neuen Eintrag zur Datenbank hinzufuegen </h2>
-
-    <form action="/eingabe" method="POST">
-
-        Message: <input type="text" name="message" id="message">
-        <input type="submit" value="Nachricht hinzufuegen">
-
-    </form>
-
-    <br/><br/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nachricht</th>
+                <th>Erstellungszeitpunkt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.message }}</td>
+                <td>{{ entry.date_created }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     {% endblock %}
 
-    </body>
+</body>
 </html>

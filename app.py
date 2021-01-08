@@ -1,21 +1,26 @@
 import argparse
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///entries.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://testuser:testpassword@localhost:5432/testdb"
 
 #Initialize the DB
 db = SQLAlchemy(app)
 
 #Create db model
 class Entries(db.Model):
+    __tablename__ = "testtable2"
+
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(200))
     date_created = db.Column(db.DateTime)
 
+# Create Tabel
+db.create_all()
+db.session.commit()
+print("Create all Statement wurde ausgeführt")
 
 @app.route("/home")
 def home():
@@ -63,3 +68,4 @@ if __name__ == '__main__':
 
     print("Starting Server on Port "+str(port))
     app.run(debug=True, host=host, port=port)
+

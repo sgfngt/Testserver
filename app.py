@@ -17,10 +17,9 @@ class Entries(db.Model):
     message = db.Column(db.String(200))
     date_created = db.Column(db.DateTime)
 
-# Create Tabel
+# Create Table
 db.create_all()
 db.session.commit()
-print("Create all Statement wurde ausgeführt")
 
 @app.route("/home")
 def home():
